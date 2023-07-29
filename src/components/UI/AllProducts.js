@@ -182,7 +182,7 @@ const AllProducts = ({ allProducts }) => {
                 </span>
               </p>
 
-              <Link href={`/product/${product?.id}`}>
+              <Link href={`/product/${product?._id}`}>
                 <p
                   style={{
                     fontSize: "15px",

@@ -50,7 +50,7 @@ const AllCategories = ({ allCategories }) => {
                 }}
               ></div>
 
-              <Link href={`/category/${category?.id}`}>
+              <Link href={`/categories/${category?._id}`}>
                 <p
                   style={{
                     fontSize: "15px",
