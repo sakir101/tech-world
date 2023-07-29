@@ -1,8 +1,11 @@
 import RootLayout from "@/components/Layouts/RootLayout";
+import AllCategories from "@/components/UI/AllCategories";
+import AllProducts from "@/components/UI/AllProducts";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
-const HomePage = () => {
+const HomePage = ({ allProducts, allCategories }) => {
+  console.log(allCategories);
   const DynamicBanner = dynamic(() => import("@/components/UI/Banner"), {
     loading: () => <p>Loading...</p>,
     ssr: false,
@@ -16,6 +19,8 @@ const HomePage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DynamicBanner></DynamicBanner>
+      <AllProducts allProducts={allProducts}></AllProducts>
+      <AllCategories allCategories={allCategories}></AllCategories>
     </>
   );
 };
@@ -23,4 +28,19 @@ export default HomePage;
 
 HomePage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
+};
+
+export const getStaticProps = async () => {
+  const res = await fetch("http://localhost:5000/api/v1/products");
+  const res2 = await fetch("http://localhost:5000/api/v1/categories");
+  const data = await res.json(); // Add 'await' here to get the resolved value of the Promise
+  const data2 = await res2.json();
+
+  return {
+    props: {
+      allProducts: data,
+      allCategories: data2,
+    },
+    revalidate: 10,
+  };
 };

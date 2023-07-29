@@ -2,7 +2,7 @@ import { Dropdown, Layout, Menu, Space } from "antd";
 import Link from "next/link";
 const { Header, Content, Footer } = Layout;
 import styles from "@/styles/Home.module.css";
-import { DownOutlined, SmileOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 
 const items = [
   {
