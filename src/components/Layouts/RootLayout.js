@@ -1,8 +1,8 @@
-import { Dropdown, Layout, Space } from "antd";
+import { Layout } from "antd";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 const { Content, Footer } = Layout;
-import { DownOutlined } from "@ant-design/icons";
+
 import { useSession, signOut } from "next-auth/react";
 import styles from "@/styles/RootLayout.module.css";
 import { useEffect, useState } from "react";
@@ -11,8 +11,6 @@ const RootLayout = ({ children }) => {
   const { categories } = useSelector((state) => state.product);
   const [showDropdown, setShowDropdown] = useState(false);
   const { data: session } = useSession();
-  console.log(showDropdown);
-  console.log(categories[0]?.data);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -98,6 +96,15 @@ const RootLayout = ({ children }) => {
           </li>
         </ul>
       </div>
+      <div className="hidden lg:block">
+        {session?.user ? (
+          <p className="text-base font-bold mt-3 text-white">
+            {session?.user?.name}
+          </p>
+        ) : (
+          <p className="text-base font-bold mt-3 text-white"></p>
+        )}
+      </div>
     </>
   );
 
@@ -163,20 +170,20 @@ const RootLayout = ({ children }) => {
                 </label>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-16 text-black"
+                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-black"
                 >
                   <li>
                     {session?.user ? (
-                      <li className="text-white mx-4">
+                      <li className="text-black mx-4">
                         <button
                           onClick={() => signOut()}
-                          className="btn bg-transparent border-none mx-0 text-white btn-xs"
+                          className="btn bg-transparent border-none mx-0 text-black btn-xs"
                         >
                           Logout
                         </button>
                       </li>
                     ) : (
-                      <Link href="/login" className="text-white mx-0">
+                      <Link href="/login" className="text-black mx-0">
                         Login
                       </Link>
                     )}

@@ -1,15 +1,11 @@
-import { useForm } from "react-hook-form";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Button } from "antd";
 import { GoogleOutlined, GithubOutlined } from "@ant-design/icons";
 import Head from "next/head";
 import styles from "@/styles/Login.module.css";
 import { signIn } from "next-auth/react";
-import auth from "@/firebase/firebase.auth";
 
 const LoginPage = () => {
   return (
-    <div>
+    <div className="w-full lg:w-1/3 mx-auto">
       <Head>
         <title>Next Login</title>
       </Head>
@@ -19,14 +15,14 @@ const LoginPage = () => {
           <GoogleOutlined
             onClick={() =>
               signIn("google", {
-                callbackUrl: "http://localhost:3000/",
+                callbackUrl: "https://tech-world-nu.vercel.app/",
               })
             }
           />
           <GithubOutlined
             onClick={() =>
               signIn("github", {
-                callbackUrl: "http://localhost:3000/",
+                callbackUrl: "https://tech-world-nu.vercel.app/",
               })
             }
           />

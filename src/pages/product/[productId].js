@@ -2,7 +2,6 @@ import RootLayout from "@/components/Layouts/RootLayout";
 import { Col, Row } from "antd";
 import Image from "next/image";
 import { Input } from "antd";
-const { TextArea } = Input;
 import styles from "@/styles/Product.module.css";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
@@ -14,7 +13,6 @@ const ProductDetailPage = ({ product }) => {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const response = await fetch(
         `https://tech-world-server-psi.vercel.app/api/v1/products/${product?.data._id}`,
@@ -305,7 +303,6 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const { params } = context;
-  console.log(params);
   const res = await fetch(
     `https://tech-world-server-psi.vercel.app/api/v1/products/${params.productId}`
   );

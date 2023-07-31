@@ -9,7 +9,6 @@ import { addToProduct } from "@/redux/product/productSlice";
 
 const CategoryDetailPage = ({ allProducts }) => {
   const dispatch = useDispatch();
-  console.log(allProducts);
   const { Meta } = Card;
   useEffect(() => {
     const categoriesData = sessionStorage.getItem("categoriesData");
