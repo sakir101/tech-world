@@ -16,7 +16,7 @@
 * Java Sript
 
 ## How to use 
-To run the development server just type in bash shell -- npm run dev
-To run production server type -- npm start
-To build the application -- npm run build
-To start the server -- npm run json-server
+* To run the development server just type in bash shell -- npm run dev
+* To run production server type -- npm start
+* To build the application -- npm run build
+* To start the server -- npm run json-server
