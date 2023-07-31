@@ -1,12 +1,25 @@
-import RootLayout from "@/components/Layouts/RootLayout";
 import { Card, Col, Row } from "antd";
 import Image from "next/image";
+import RootLayout from "@/components/Layouts/RootLayout";
 import Link from "next/link";
-import { ArrowRightOutlined } from "@ant-design/icons";
 
-const CategoryDetailPage = ({ allProducts }) => {
-  console.log(allProducts);
+const PcBuilderProductPage = ({ allProducts, allCategories }) => {
   const { Meta } = Card;
+
+  const saveData = (name) => {
+    const existingData = sessionStorage.getItem("userData");
+    let newData = {};
+
+    if (existingData) {
+      newData = JSON.parse(existingData);
+    }
+
+    if (allCategories.data && allCategories.data.title) {
+      newData[allCategories.data.title] = name;
+    }
+
+    sessionStorage.setItem("userData", JSON.stringify(newData));
+  };
   return (
     <>
       <h1
@@ -18,7 +31,7 @@ const CategoryDetailPage = ({ allProducts }) => {
       >
         All Products
       </h1>
-      <Row className="p-3 lg:p-6" gutter={[24, 16]}>
+      <Row gutter={[24, 16]}>
         {allProducts?.data?.map((product) => (
           <Col
             key={product.id}
@@ -183,24 +196,16 @@ const CategoryDetailPage = ({ allProducts }) => {
                   5
                 </span>
               </p>
-
-              <Link href={`/product/${product?._id}`}>
-                <p
-                  style={{
-                    fontSize: "15px",
-                    marginTop: "20px",
-                    backgroundColor: "black",
-                    color: "white",
-                    width: "100%",
-                    padding: "2px 5px ",
-                    fontWeight: "300",
-                    letterSpacing: "3px",
-                    textAlign: "center",
-                  }}
-                >
-                  See Detail <ArrowRightOutlined />
-                </p>
-              </Link>
+              <div className="flex justify-center my-5">
+                <Link href="/pcBuilder">
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={() => saveData(product?.productName)}
+                  >
+                    Add to PC Builder
+                  </button>
+                </Link>
+              </div>
             </Card>
           </Col>
         ))}
@@ -209,9 +214,9 @@ const CategoryDetailPage = ({ allProducts }) => {
   );
 };
 
-export default CategoryDetailPage;
+export default PcBuilderProductPage;
 
-CategoryDetailPage.getLayout = function getLayout(page) {
+PcBuilderProductPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
@@ -220,7 +225,7 @@ export const getStaticPaths = async () => {
   const categories = await res.json();
 
   const paths = categories?.data?.map((category) => ({
-    params: { categoriesId: category?._id },
+    params: { pcBuilderProduct: category?._id },
   }));
 
   return { paths, fallback: false };
@@ -230,7 +235,7 @@ export const getStaticProps = async (context) => {
   const { params } = context;
 
   const res = await fetch(
-    `http://localhost:5000/api/v1/categories/${params.categoriesId}`
+    `http://localhost:5000/api/v1/categories/${params.pcBuilderProduct}`
   );
   const data = await res.json();
 
@@ -242,6 +247,7 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       allProducts: data2,
+      allCategories: data,
     },
   };
 };

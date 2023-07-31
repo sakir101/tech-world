@@ -76,7 +76,7 @@ const Banner = () => {
         }}
         style={contentStyle}
       >
-        <Carousel autoplay>
+        <Carousel autoplay dots={false}>
           <div>
             <Image
               src={banner1}

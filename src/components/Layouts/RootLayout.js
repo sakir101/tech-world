@@ -88,7 +88,7 @@ const RootLayout = ({ children }) => {
               </a>
             </Dropdown>
           </items>
-          <Link href="/contact">
+          <Link href="/pcBuilder">
             <items
               style={{
                 backgroundImage: "linear-gradient(to right, #007bff, #00aaff)",
@@ -115,8 +115,9 @@ const RootLayout = ({ children }) => {
       </Header>
       <Content
         style={{
-          padding: "0 24px",
+          padding: "0 0px",
           minHeight: "100vh",
+          backgroundColor: "white",
         }}
       >
         {children}
