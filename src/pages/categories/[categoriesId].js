@@ -226,7 +226,9 @@ CategoryDetailPage.getLayout = function getLayout(page) {
 };
 
 export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/categories");
+  const res = await fetch(
+    "https://tech-world-server-psi.vercel.app/api/v1/categories"
+  );
   const categories = await res.json();
 
   const paths = categories?.data?.map((category) => ({
@@ -240,12 +242,12 @@ export const getStaticProps = async (context) => {
   const { params } = context;
 
   const res = await fetch(
-    `http://localhost:5000/api/v1/categories/${params.categoriesId}`
+    `https://tech-world-server-psi.vercel.app/api/v1/categories/${params.categoriesId}`
   );
   const data = await res.json();
 
   const res2 = await fetch(
-    `http://localhost:5000/api/v1/productName/${data?.data?.title}`
+    `https://tech-world-server-psi.vercel.app/api/v1/productName/${data?.data?.title}`
   );
   const data2 = await res2.json();
 

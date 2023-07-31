@@ -38,8 +38,12 @@ HomePage.getLayout = function getLayout(page, allCategories) {
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/products");
-  const res2 = await fetch("http://localhost:5000/api/v1/categories");
+  const res = await fetch(
+    "https://tech-world-server-psi.vercel.app/api/v1/products"
+  );
+  const res2 = await fetch(
+    "https://tech-world-server-psi.vercel.app/api/v1/categories"
+  );
   const data = await res.json();
   const data2 = await res2.json();
 

@@ -224,12 +224,12 @@ export const getServerSideProps = async (context) => {
   const { params } = context;
 
   const res = await fetch(
-    `http://localhost:5000/api/v1/categories/${params.pcBuilderProduct}`
+    `https://tech-world-server-psi.vercel.app/api/v1/categories/${params.pcBuilderProduct}`
   );
   const data = await res.json();
 
   const res2 = await fetch(
-    `http://localhost:5000/api/v1/productName/${data?.data?.title}`
+    `https://tech-world-server-psi.vercel.app/api/v1/productName/${data?.data?.title}`
   );
   const data2 = await res2.json();
 

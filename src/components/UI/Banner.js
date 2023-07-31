@@ -3,7 +3,7 @@ import Image from "next/image";
 import banner1 from "@/assets/images/banner/banner_1.png";
 import banner2 from "@/assets/images/banner/banner_2.png";
 import banner3 from "@/assets/images/banner/banner_3.png";
-import { ArrowRightOutlined } from "@ant-design/icons";
+
 import Link from "next/link";
 
 const contentStyle = {

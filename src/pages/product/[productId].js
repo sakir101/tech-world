@@ -17,7 +17,7 @@ const ProductDetailPage = ({ product }) => {
     console.log(data);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/products/${product?.data._id}`,
+        `https://tech-world-server-psi.vercel.app/api/v1/products/${product?.data._id}`,
         {
           method: "PATCH",
           headers: {
@@ -291,7 +291,9 @@ ProductDetailPage.getLayout = function getLayout(page) {
 };
 
 export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/products");
+  const res = await fetch(
+    "https://tech-world-server-psi.vercel.app/api/v1/products"
+  );
   const products = await res.json();
 
   const paths = products?.data?.map((product) => ({
@@ -305,7 +307,7 @@ export const getStaticProps = async (context) => {
   const { params } = context;
   console.log(params);
   const res = await fetch(
-    `http://localhost:5000/api/v1/products/${params.productId}`
+    `https://tech-world-server-psi.vercel.app/api/v1/products/${params.productId}`
   );
   const data = await res.json();
 

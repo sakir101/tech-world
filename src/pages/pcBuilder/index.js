@@ -16,7 +16,9 @@ PcBuilder.getLayout = function getLayout(page) {
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/categories");
+  const res = await fetch(
+    "https://tech-world-server-psi.vercel.app/api/v1/categories"
+  );
   const data = await res.json();
 
   return {

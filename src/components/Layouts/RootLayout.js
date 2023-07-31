@@ -213,7 +213,8 @@ const RootLayout = ({ children }) => {
           textAlign: "center",
         }}
       >
-        Ant Design ©2023 Created by Ant UED
+        <p className="my-5 font-semibold">©Copyright 2023</p>
+        <p>Tech World Community</p>
       </Footer>
     </Layout>
   );
