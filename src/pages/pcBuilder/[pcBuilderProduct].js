@@ -220,18 +220,7 @@ PcBuilderProductPage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/categories");
-  const categories = await res.json();
-
-  const paths = categories?.data?.map((category) => ({
-    params: { pcBuilderProduct: category?._id },
-  }));
-
-  return { paths, fallback: false };
-};
-
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const { params } = context;
 
   const res = await fetch(

@@ -1,15 +1,20 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import AllCategories from "@/components/UI/AllCategories";
 import AllProducts from "@/components/UI/AllProducts";
+import { addToProduct } from "@/redux/product/productSlice";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { useDispatch } from "react-redux";
 
 const HomePage = ({ allProducts, allCategories }) => {
-  console.log(allCategories);
+  const dispatch = useDispatch();
   const DynamicBanner = dynamic(() => import("@/components/UI/Banner"), {
     loading: () => <p>Loading...</p>,
     ssr: false,
   });
+  if (allCategories) {
+    dispatch(addToProduct(allCategories));
+  }
   return (
     <div className="p-3 lg:p-6">
       <Head>
@@ -26,8 +31,8 @@ const HomePage = ({ allProducts, allCategories }) => {
 };
 export default HomePage;
 
-HomePage.getLayout = function getLayout(page) {
-  return <RootLayout>{page}</RootLayout>;
+HomePage.getLayout = function getLayout(page, allCategories) {
+  return <RootLayout allCategories={allCategories}>{page}</RootLayout>;
 };
 
 export const getStaticProps = async () => {

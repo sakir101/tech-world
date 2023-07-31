@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   status: false,
+  categories: [],
 };
 
 const productSlice = createSlice({
@@ -11,9 +12,13 @@ const productSlice = createSlice({
     toggleState: (state) => {
       state.status = !state.status;
     },
+
+    addToProduct: (state, action) => {
+      state.categories.push({ ...action.payload });
+    },
   },
 });
 
-export const { toggleState } = productSlice.actions;
+export const { toggleState, addToProduct } = productSlice.actions;
 
 export default productSlice.reducer;

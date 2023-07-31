@@ -1,118 +1,147 @@
-import { Dropdown, Layout, Menu, Space } from "antd";
+import { Dropdown, Layout, Space } from "antd";
 import Link from "next/link";
-const { Header, Content, Footer } = Layout;
-import styles from "@/styles/Home.module.css";
+import { useSelector } from "react-redux";
+const { Content, Footer } = Layout;
 import { DownOutlined } from "@ant-design/icons";
 
-const items = [
-  {
-    key: "1",
-    label: <Link href="/">CPU / Processor</Link>,
-  },
-  {
-    key: "2",
-    label: <Link href="/">Motherboard</Link>,
-  },
-  {
-    key: "3",
-    label: <Link href="/">RAM</Link>,
-  },
-  {
-    key: "4",
-    label: <Link href="/">Power Supply Unit</Link>,
-  },
-  {
-    key: "5",
-    label: <Link href="/">Storage Device</Link>,
-  },
-  {
-    key: "6",
-    label: <Link href="/">Monitor</Link>,
-  },
-  {
-    key: "7",
-    label: <Link href="/">Others</Link>,
-  },
-];
-
 const RootLayout = ({ children }) => {
+  const { categories } = useSelector((state) => state.product);
+  console.log(categories[0]);
+  const items = categories[0]?.data?.map((category, index) => ({
+    label: (
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href={`/categories/${category?._id}`}
+      >
+        {category.title}{" "}
+      </a>
+    ),
+    key: `${index}`,
+  }));
+  const menuItems = (
+    <>
+      <li>
+        <Dropdown
+          menu={{
+            items,
+          }}
+          trigger={["click"]}
+        >
+          <a onClick={(e) => e.preventDefault()} className="mt-3">
+            <Space className="text-white">
+              Categories
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+      </li>
+      <li>
+        <Link href="/">
+          <button className="btn btn-primary">PC Builder</button>
+        </Link>
+      </li>
+
+      <div className="dropdown dropdown-end  hidden lg:block">
+        <label
+          tabIndex={0}
+          className="btn m-1 bg-transparent border-transparent hover:bg-transparent hover:border-transparent"
+        >
+          <div className="avatar">
+            <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              <img
+                src={`https://www.seekpng.com/png/small/46-463314_v-th-h-user-profile-icon.png`}
+              />
+            </div>
+          </div>
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu p-2 shadow bg-blue-500 rounded-box w-32 text-black"
+        >
+          <li>
+            <Link href="/signup" className="text-white mx-0">
+              Sign up
+            </Link>
+          </li>
+          <li className="text-white mx-4">Logout</li>
+        </ul>
+      </div>
+      <p className="text-base font-bold mt-3 text-white hidden lg:block"></p>
+    </>
+  );
+
   return (
     <Layout>
-      <Header
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 1,
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div className="demo-logo">
-          <h1>
-            <Link
-              href="/"
-              style={{
-                color: "white",
-                backgroundColor: "#404040",
-                padding: "5px 10px",
-                borderRadius: "3px",
-              }}
-            >
-              Tech World
-            </Link>
-          </h1>
+      <div>
+        <div className="navbar bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500">
+          <div className="w-full lg:w-1/2 flex justify-between lg:justify-between items-center">
+            <div className="flex">
+              <div className="dropdown">
+                <label tabIndex={2} className="btn btn-ghost lg:hidden">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-white font-bold"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h8m-8 6h16"
+                    />
+                  </svg>
+                </label>
+                <ul
+                  tabIndex={2}
+                  className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-blue-500 rounded-box w-52 text-xl text-black z-50"
+                >
+                  {menuItems}
+                </ul>
+              </div>
+              <Link
+                href="/"
+                className="btn btn-ghost normal-case text-xl text-white hidden lg:block"
+              >
+                Hongkong Book Stall
+              </Link>
+            </div>
+            <div className="flex justify-between lg:hidden">
+              <div className="dropdown dropdown-end">
+                <label
+                  tabIndex={0}
+                  className="btn m-1 bg-transparent border-transparent hover:bg-transparent hover:border-transparent"
+                >
+                  <div className="avatar">
+                    <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                      <img
+                        src={`https://www.seekpng.com/png/small/46-463314_v-th-h-user-profile-icon.png`}
+                      />
+                    </div>
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-16 text-black"
+                >
+                  <li>
+                    <Link href="/signup">Sign up</Link>
+                  </li>
+                  <li>Logout</li>
+                </ul>
+              </div>
+              <div className="hidden lg:block">
+                <p className="text-base font-bold mt-3 text-white"></p>
+              </div>
+            </div>
+          </div>
+          <div className="navbar-end hidden lg:flex ">
+            <ul className="menu menu-horizontal p-0 ">{menuItems}</ul>
+          </div>
         </div>
-        <Menu
-          theme="dark"
-          style={{ background: "transparent" }}
-          mode="vertical"
-          className={styles.menu_items}
-        >
-          <items
-            style={{
-              paddingRight: "10px",
-            }}
-          >
-            <Dropdown
-              menu={{
-                items,
-              }}
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  Catagories
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          </items>
-          <Link href="/pcBuilder">
-            <items
-              style={{
-                backgroundImage: "linear-gradient(to right, #007bff, #00aaff)",
-                color: "white",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-              onMouseEnter={(e) =>
-                (e.target.style.backgroundImage =
-                  "linear-gradient(to right, #00aaff, #007bff)")
-              }
-              onMouseLeave={(e) =>
-                (e.target.style.backgroundImage =
-                  "linear-gradient(to right, #007bff, #00aaff)")
-              }
-            >
-              PC Builder
-            </items>
-          </Link>
-        </Menu>
-      </Header>
+      </div>
       <Content
         style={{
           padding: "0 0px",
