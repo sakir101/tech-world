@@ -4,6 +4,7 @@ import AllProducts from "@/components/UI/AllProducts";
 import { addToProduct } from "@/redux/product/productSlice";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 const HomePage = ({ allProducts, allCategories }) => {
@@ -12,9 +13,10 @@ const HomePage = ({ allProducts, allCategories }) => {
     loading: () => <p>Loading...</p>,
     ssr: false,
   });
-  if (allCategories) {
+  useEffect(() => {
+    sessionStorage.setItem("categoriesData", JSON.stringify(allCategories));
     dispatch(addToProduct(allCategories));
-  }
+  });
   return (
     <div className="p-3 lg:p-6">
       <Head>

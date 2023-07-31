@@ -5,9 +5,13 @@ import { Input } from "antd";
 const { TextArea } = Input;
 import styles from "@/styles/Product.module.css";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addToProduct } from "@/redux/product/productSlice";
 
 const ProductDetailPage = ({ product }) => {
   const { register, handleSubmit, setValue } = useForm();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -32,6 +36,13 @@ const ProductDetailPage = ({ product }) => {
       console.error("Error while updating product:", error);
     }
   };
+
+  useEffect(() => {
+    const categoriesData = sessionStorage.getItem("categoriesData");
+    const categoriesObject = JSON.parse(categoriesData);
+
+    dispatch(addToProduct(categoriesObject));
+  });
 
   return (
     <>

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { toggleState } from "@/redux/product/productSlice";
+import { addToProduct, toggleState } from "@/redux/product/productSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const BuilderCategory = ({ allCategory }) => {
   const router = useRouter();
@@ -22,6 +23,13 @@ const BuilderCategory = ({ allCategory }) => {
     "Power Supply Unit",
     "Others",
   ];
+  const notify = () => toast("Build PC Successfully");
+  useEffect(() => {
+    const categoriesData = sessionStorage.getItem("categoriesData");
+    const categoriesObject = JSON.parse(categoriesData);
+
+    dispatch(addToProduct(categoriesObject));
+  }, [products]);
   useEffect(() => {
     if (products[0] !== undefined) {
       const productKeys = Object.keys(products[0]);
@@ -63,7 +71,11 @@ const BuilderCategory = ({ allCategory }) => {
             <h4 className="text-center">PC Builder</h4>
           </Col>
           <Col span={8} className="flex justify-end p-3">
-            <button className="btn btn-primary btn-sm" disabled={!status}>
+            <button
+              className="btn btn-primary btn-sm"
+              disabled={!status}
+              onClick={notify}
+            >
               Build PC
             </button>
           </Col>
@@ -109,6 +121,7 @@ const BuilderCategory = ({ allCategory }) => {
           ))}
         </Row>
       </div>
+      <Toaster />
     </div>
   );
 };

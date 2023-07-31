@@ -4,6 +4,7 @@ import banner1 from "@/assets/images/banner/banner_1.png";
 import banner2 from "@/assets/images/banner/banner_2.png";
 import banner3 from "@/assets/images/banner/banner_3.png";
 import { ArrowRightOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 const contentStyle = {
   height: "625px",
@@ -54,20 +55,9 @@ const Banner = () => {
           This is your pc building website. Here you will get all kind of
           support to build your pc.
         </p>
-        <p
-          style={{
-            fontSize: "20px",
-            margin: "20px 0px",
-            backgroundColor: "black",
-            color: "white",
-            width: "168px",
-            padding: "2px 5px ",
-            fontWeight: "300",
-            letterSpacing: "3px",
-          }}
-        >
-          Keep Reading <ArrowRightOutlined />
-        </p>
+        <Link href="/">
+          <button className="btn btn-outline my-10">See Detail</button>
+        </Link>
       </Col>
 
       <Col

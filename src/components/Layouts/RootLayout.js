@@ -3,41 +3,53 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 const { Content, Footer } = Layout;
 import { DownOutlined } from "@ant-design/icons";
+import { useSession, signOut } from "next-auth/react";
+import styles from "@/styles/RootLayout.module.css";
+import { useEffect, useState } from "react";
 
 const RootLayout = ({ children }) => {
   const { categories } = useSelector((state) => state.product);
-  console.log(categories[0]);
-  const items = categories[0]?.data?.map((category, index) => ({
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href={`/categories/${category?._id}`}
-      >
-        {category.title}{" "}
-      </a>
-    ),
-    key: `${index}`,
-  }));
+  const [showDropdown, setShowDropdown] = useState(false);
+  const { data: session } = useSession();
+  console.log(showDropdown);
+  console.log(categories[0]?.data);
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const closeDropdownIfClickedOutside = (event) => {
+    if (!event.target.classList.contains("dropbtn")) {
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", closeDropdownIfClickedOutside);
+    return () => {
+      document.removeEventListener("click", closeDropdownIfClickedOutside);
+    };
+  }, []);
+
   const menuItems = (
     <>
-      <li>
-        <Dropdown
-          menu={{
-            items,
-          }}
-          trigger={["click"]}
-        >
-          <a onClick={(e) => e.preventDefault()} className="mt-3">
-            <Space className="text-white">
-              Categories
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
+      <li className={styles.dropdown}>
+        <button onClick={toggleDropdown} className={styles.dropbtn}>
+          Categories
+        </button>
+        {showDropdown && (
+          <ul id="myDropdown" className={styles.dropdownContent}>
+            {categories[0]?.data?.map((category) => (
+              <li key={category?.id}>
+                <Link href={`/categories/${category?._id}`}>
+                  {" "}
+                  {category?.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </li>
       <li>
-        <Link href="/">
+        <Link href="/pcBuilder">
           <button className="btn btn-primary">PC Builder</button>
         </Link>
       </li>
@@ -47,27 +59,45 @@ const RootLayout = ({ children }) => {
           tabIndex={0}
           className="btn m-1 bg-transparent border-transparent hover:bg-transparent hover:border-transparent"
         >
-          <div className="avatar">
-            <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-              <img
-                src={`https://www.seekpng.com/png/small/46-463314_v-th-h-user-profile-icon.png`}
-              />
+          {session?.user ? (
+            <div className="avatar">
+              <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img src={session?.user?.image} />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="avatar">
+              <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                <img
+                  src={`https://www.seekpng.com/png/small/46-463314_v-th-h-user-profile-icon.png`}
+                  alt={session?.user?.name}
+                />
+              </div>
+            </div>
+          )}
         </label>
         <ul
           tabIndex={0}
           className="dropdown-content z-[1] menu p-2 shadow bg-blue-500 rounded-box w-32 text-black"
         >
           <li>
-            <Link href="/signup" className="text-white mx-0">
-              Sign up
-            </Link>
+            {session?.user ? (
+              <li className="text-white mx-4">
+                <button
+                  onClick={() => signOut()}
+                  className="btn bg-transparent border-none mx-0 text-white btn-xs"
+                >
+                  Logout
+                </button>
+              </li>
+            ) : (
+              <Link href="/login" className="text-white mx-0">
+                Login
+              </Link>
+            )}
           </li>
-          <li className="text-white mx-4">Logout</li>
         </ul>
       </div>
-      <p className="text-base font-bold mt-3 text-white hidden lg:block"></p>
     </>
   );
 
@@ -105,7 +135,7 @@ const RootLayout = ({ children }) => {
                 href="/"
                 className="btn btn-ghost normal-case text-xl text-white hidden lg:block"
               >
-                Hongkong Book Stall
+                Tech World
               </Link>
             </div>
             <div className="flex justify-between lg:hidden">
@@ -114,26 +144,53 @@ const RootLayout = ({ children }) => {
                   tabIndex={0}
                   className="btn m-1 bg-transparent border-transparent hover:bg-transparent hover:border-transparent"
                 >
-                  <div className="avatar">
-                    <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                      <img
-                        src={`https://www.seekpng.com/png/small/46-463314_v-th-h-user-profile-icon.png`}
-                      />
+                  {session?.user ? (
+                    <div className="avatar">
+                      <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <img src={session?.user?.image} />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="avatar">
+                      <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <img
+                          src={`https://www.seekpng.com/png/small/46-463314_v-th-h-user-profile-icon.png`}
+                          alt={session?.user?.name}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </label>
                 <ul
                   tabIndex={0}
                   className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-16 text-black"
                 >
                   <li>
-                    <Link href="/signup">Sign up</Link>
+                    {session?.user ? (
+                      <li className="text-white mx-4">
+                        <button
+                          onClick={() => signOut()}
+                          className="btn bg-transparent border-none mx-0 text-white btn-xs"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    ) : (
+                      <Link href="/login" className="text-white mx-0">
+                        Login
+                      </Link>
+                    )}
                   </li>
-                  <li>Logout</li>
                 </ul>
               </div>
               <div className="hidden lg:block">
-                <p className="text-base font-bold mt-3 text-white"></p>
+                {session?.user ? (
+                  <p className="text-base font-bold mt-3 text-white">
+                    {session?.user?.name}
+                  </p>
+                ) : (
+                  <p className="text-base font-bold mt-3 text-white"></p>
+                )}
               </div>
             </div>
           </div>

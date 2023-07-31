@@ -3,10 +3,20 @@ import { Card, Col, Row } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addToProduct } from "@/redux/product/productSlice";
 
 const CategoryDetailPage = ({ allProducts }) => {
+  const dispatch = useDispatch();
   console.log(allProducts);
   const { Meta } = Card;
+  useEffect(() => {
+    const categoriesData = sessionStorage.getItem("categoriesData");
+    const categoriesObject = JSON.parse(categoriesData);
+
+    dispatch(addToProduct(categoriesObject));
+  });
   return (
     <>
       <h1
